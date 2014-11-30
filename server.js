@@ -1,3 +1,4 @@
+////////////////////////////////////////////////////////////////////////////////
 var util    = require("util"),
     path    = require("path"),
     os      = require("os"),
@@ -12,16 +13,19 @@ var util    = require("util"),
     
     // Setup app instance
     app = express(),
-
+    
     // Grab app settings
-    SETTINGS    = require("./config.json"),
-    MIDDLEWARE  = require("./middleware.js")();
+    SETTINGS    = require("./config.json");
 
+
+////////////////////////////////////////////////////////////////////////////////
 // Fix up some settings like the url etc, also
 // default params for required vars
-SETTINGS.url  = "http://" + os.hostname(),
+SETTINGS.url  = "http://" + os.hostname();
 SETTINGS.port = SETTINGS.port || 1234;
 
+
+////////////////////////////////////////////////////////////////////////////////
 // Configure the express app
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "templates"));
@@ -31,13 +35,22 @@ app.set("trust proxy", true);
 // the ejs templates
 app.locals._ = _;
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Define application routes
+var middleware = require("./middleware.js")(SETTINGS);
+var handlers   = require("./route_handlers.js")(SETTINGS); 
+require("./routes.js")(app, middleware, handlers);
+
+
+////////////////////////////////////////////////////////////////////////////////
 // API to fetch all projects under the services dir
-app.get("/", MIDDLEWARE.passthrough, function(request, response) {
+app.get("/", middleware.passthrough, function(request, response) {
     response.render("index", { "services": SETTINGS.services });
 });
 
 // List (sub) project details for a given project
-app.get("/list/:project_name", MIDDLEWARE.validate_project, function(request, response) {
+app.get("/list/:project_name", middleware.validate_project, function(request, response) {
     var project_name = request.params.project_name,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
     if(project) {
@@ -56,7 +69,7 @@ app.get("/list/:project_name", MIDDLEWARE.validate_project, function(request, re
 
 // Fetch a bootstrap file(sh), which fetches all files from that
 // sub-project
-app.get("/bootstrap/:project_name", MIDDLEWARE.validate_project, function(request, response) {
+app.get("/bootstrap/:project_name", middleware.validate_project, function(request, response) {
     var project_name = request.params.project_name,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
     if(project) {
@@ -72,7 +85,7 @@ app.get("/bootstrap/:project_name", MIDDLEWARE.validate_project, function(reques
     }
 });
 
-app.get("/get_file/:project_name/*", MIDDLEWARE.validate_project, function(request, response) {
+app.get("/get_file/:project_name/*", middleware.validate_project, function(request, response) {
     var project_name = request.params.project_name,
         project      = _.findWhere(SETTINGS.services, { "name": project_name });
     if(project) {
