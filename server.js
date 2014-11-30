@@ -14,7 +14,8 @@ var util    = require("util"),
     app = express(),
 
     // Grab app settings
-    SETTINGS            = require("./config.json");
+    SETTINGS    = require("./config.json"),
+    MIDDLEWARE  = require("./middleware.js")();
 
 // Fix up some settings like the url etc, also
 // default params for required vars
@@ -30,38 +31,14 @@ app.set("trust proxy", true);
 // the ejs templates
 app.locals._ = _;
 
-// TODO: This should be a auto-generated API object which is injected into
-// a "view" for main. This way it is much easier to control how this renders
-// if at all..
-var API_MSG = [
-    "Here are the APIs which this server implements:",
-    "",
-    " * GET /",
-    " --> Fetches this help page",
-    " * GET /list_all",
-    " --> Lists all sub projects exposed via this server",
-    " * GET /list/:project",
-    " --> Lists all files / folders under the subproject",
-    " * GET /services/:project/:file/:path",
-    " --> Fetches the given file"
-].join("<br>\n");
-
-app.get("/", function(request, response) {
-    response.send(API_MSG);
-    response.end();
-});
-
 // API to fetch all projects under the services dir
-app.get("/list_all", function(request, response) {
-    response.render("list_all", { "services": SETTINGS.services });
+app.get("/", MIDDLEWARE.passthrough, function(request, response) {
+    response.render("index", { "services": SETTINGS.services });
 });
-
-// TODO: All project apis should probably go through a validate project
-// middleware which validates that the project exists in the settings etc
 
 // List (sub) project details for a given project
-app.get("/list/:project", function(request, response) {
-    var project_name = request.params.project,
+app.get("/list/:project_name", MIDDLEWARE.validate_project, function(request, response) {
+    var project_name = request.params.project_name,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
     if(project) {
         response.render("list_project", {
@@ -79,8 +56,8 @@ app.get("/list/:project", function(request, response) {
 
 // Fetch a bootstrap file(sh), which fetches all files from that
 // sub-project
-app.get("/bootstrap/:project", function(request, response) {
-    var project_name = request.params.project,
+app.get("/bootstrap/:project_name", MIDDLEWARE.validate_project, function(request, response) {
+    var project_name = request.params.project_name,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
     if(project) {
         response.render("bootstrap", {
@@ -95,9 +72,9 @@ app.get("/bootstrap/:project", function(request, response) {
     }
 });
 
-app.get("/get_file/:project/*", function(request, response) {
-    var project_name = request.params.project,
-        project      = _.findWhere(SETTINGS.services, {"name": project_name});
+app.get("/get_file/:project_name/*", MIDDLEWARE.validate_project, function(request, response) {
+    var project_name = request.params.project_name,
+        project      = _.findWhere(SETTINGS.services, { "name": project_name });
     if(project) {
         var file_sub_path   = path.dirname(request.params[0]),
             file_root       = path.join(project.path, file_sub_path),
