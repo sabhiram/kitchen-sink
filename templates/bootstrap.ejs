@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#
+# Bootstrap script for <%= project %>
+#
+
+SERVER="<%= server.url %>"
+PORT="<%= server.port %>"
+PROJECT="<%= project %>"
+
+curl ${SERVER}:${PORT}/init/${PROJECT} -o init.sh && chmod 755 init.sh && ./init.sh && make build

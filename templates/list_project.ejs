@@ -1,0 +1,13 @@
+<b>Project Name: </b> <%= project %> <br>
+<b>Project Description: </b> <br>
+
+<%= description %> <br>
+<br>
+
+<a href="/init/<%= project %>"> Init </a> | <a href="/bootstrap/<%= project %>"> Bootstrap </a>
+<br>
+
+<% _.each(file_info, function(file) { %>
+<% file %>
+<br>
+<% }); %>
