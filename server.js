@@ -38,9 +38,9 @@ app.locals._ = _;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Define application routes
-var middleware = require("./middleware.js")(SETTINGS);
-var handlers   = require("./route_handlers.js")(SETTINGS); 
-require("./routes.js")(app, middleware, handlers);
+var middleware = require("./app/middleware.js")(SETTINGS);
+var handlers   = require("./app/route_handlers.js")(SETTINGS); 
+require("./app/routes.js")(app, middleware, handlers);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,19 +52,14 @@ app.get("/", middleware.passthrough, function(request, response) {
 // List (sub) project details for a given project
 app.get("/list/:project_name", middleware.validate_project, function(request, response) {
     var project_name = request.params.project_name,
-        project      = _.findWhere(SETTINGS.services, {"name": project_name});
-    if(project) {
-        response.render("list_project", {
-            "name": project.name,
-            "description": project.description,
-            "server": SETTINGS,
-            "file_info": get_files_in_dir_sync(project.path),
-        });
-    } else {
-        response.render("error", {
-            "message": "Project "+project_name+"does not exist!"
-        });
-    }
+        project      = _.findWhere(SETTINGS.services, { "name": project_name });
+
+    response.render("list_project", {
+        "name": project.name,
+        "description": project.description,
+        "server": SETTINGS,
+        "files": get_files_in_dir_sync(project.path),
+    });
 });
 
 // Fetch a bootstrap file(sh), which fetches all files from that
@@ -72,17 +67,12 @@ app.get("/list/:project_name", middleware.validate_project, function(request, re
 app.get("/bootstrap/:project_name", middleware.validate_project, function(request, response) {
     var project_name = request.params.project_name,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
-    if(project) {
-        response.render("bootstrap", {
-            "name": project.name,
-            "server": SETTINGS,
-            "files": get_files_in_dir_sync(project.path)
-        });        
-    } else {
-        response.render("error", {
-            "message": project + " does not exist!"
-        });
-    }
+
+    response.render("bootstrap", {
+        "name": project.name,
+        "server": SETTINGS,
+        "files": get_files_in_dir_sync(project.path)
+    });        
 });
 
 app.get("/get_file/:project_name/*", middleware.validate_project, function(request, response) {

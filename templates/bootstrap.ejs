@@ -22,6 +22,6 @@ if [ -f temp.file ]
 fi
 
 # Fetch each file from the server
-<% _.each(files, function(file_info) { -%>
-curl ${SERVER}:${PORT}/get_file/${PROJECT}/<%= file_info.path %> --silent --create-dirs -z <%= file_info.path %> -o <%= file_info.path %>
+<% _.each(files, function(file) { -%>
+curl ${SERVER}:${PORT}/get_file/${PROJECT}/<%= file.path %> --silent --create-dirs -z <%= file.path %> -o <%= file.path %>
 <% }); -%>

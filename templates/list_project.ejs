@@ -7,7 +7,7 @@ You can also run something like:<br>
 wget <%= server.url %>:<%= server.port %>/init/<%= name %> -O - | sh <br><br>
 
 <b><u>Files in project</u></b> <br>
-<% _.each(file_info, function(file) { %>
+<% _.each(files, function(file) { %>
  * <%= file.path %>
 <br>
 <% }); %>
