@@ -59,17 +59,16 @@ app.get("/list_all", function(request, response) {
 // TODO: All project apis should probably go through a validate project
 // middleware which validates that the project exists in the settings etc
 
-// API to fetch all paths in a given project
+// List (sub) project details for a given project
 app.get("/list/:project", function(request, response) {
     var project_name = request.params.project,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
     if(project) {
-        var project_dir     = project.path,
-            file_info_list  = get_files_in_dir_sync(project_dir);
         response.render("list_project", {
-            "project": project.name,
+            "name": project.name,
             "description": project.description,
-            "file_info": file_info_list,
+            "server": SETTINGS,
+            "file_info": get_files_in_dir_sync(project.path),
         });
     } else {
         response.render("error", {
@@ -78,31 +77,16 @@ app.get("/list/:project", function(request, response) {
     }
 });
 
-app.get("/init/:project", function(request, response) {
-    var project_name = request.params.project,
-        project      = _.findWhere(SETTINGS.services, {"name": project_name});
-    if(project) {
-        var project_dir = project.path;
-        response.render("init", {
-            "project": project.name,
-            "server": SETTINGS,
-            "files": get_files_in_dir_sync(project_dir)
-        });        
-    } else {
-        response.render("error", {
-            "message": project + " does not exist!"
-        });
-    }
-});
-
+// Fetch a bootstrap file(sh), which fetches all files from that
+// sub-project
 app.get("/bootstrap/:project", function(request, response) {
     var project_name = request.params.project,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
     if(project) {
-        var project_dir = project.path;
         response.render("bootstrap", {
-            "project": project.name,
+            "name": project.name,
             "server": SETTINGS,
+            "files": get_files_in_dir_sync(project.path)
         });        
     } else {
         response.render("error", {
@@ -115,9 +99,8 @@ app.get("/get_file/:project/*", function(request, response) {
     var project_name = request.params.project,
         project      = _.findWhere(SETTINGS.services, {"name": project_name});
     if(project) {
-        var project_dir     = project.path,
-            file_sub_path   = path.dirname(request.params[0]),
-            file_root       = path.join(project_dir, file_sub_path),
+        var file_sub_path   = path.dirname(request.params[0]),
+            file_root       = path.join(project.path, file_sub_path),
             file_name       = path.basename(request.params[0]),
             file_full_path  = path.join(file_root, file_name),
             send_options    = {

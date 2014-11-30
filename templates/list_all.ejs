@@ -1,5 +1,5 @@
 <b>Service Name | Description | Path</b><br>
+
 <% _.each(services, function(service) { %>
-<a href="/list/<%= service.name %>"><%= service.name %></a> | <%= service.description %> | <%= service.path %>
-<br>
+<a href="/list/<%= service.name %>"><%= service.name %></a> | <%= service.description %> | <%= service.path %> <br>
 <% }); %>

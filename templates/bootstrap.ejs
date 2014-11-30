@@ -1,11 +1,27 @@
 #!/bin/bash
 
 #
-# Bootstrap script for <%= project %>
+# Bootstrap script for <%= name %>
 #
 
 SERVER="<%= server.url %>"
 PORT="<%= server.port %>"
-PROJECT="<%= project %>"
+PROJECT="<%= name %>"
 
-curl ${SERVER}:${PORT}/init/${PROJECT} -o init.sh && chmod 755 init.sh && ./init.sh && make build
+# Check to see if server is reachable
+echo ""
+echo "[Step 0] - Testing file host server..."
+wget ${SERVER}:${PORT}/ -O temp.file --timeout=1 --quiet
+if [ -f temp.file ]
+    then
+        echo "Server connection successful..."
+        rm temp.file
+    else
+        echo "Server not reachable, exiting init script..."
+        exit 1
+fi
+
+# Fetch each file from the server
+<% _.each(files, function(file_info) { -%>
+curl ${SERVER}:${PORT}/get_file/${PROJECT}/<%= file_info.path %> --silent --create-dirs -z <%= file_info.path %> -o <%= file_info.path %>
+<% }); -%>

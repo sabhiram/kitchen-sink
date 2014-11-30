@@ -1,13 +1,13 @@
-<b>Project Name: </b> <%= project %> <br>
+<b>Project Name: </b> <%= name %> <br>
 <b>Project Description: </b> <br>
+<%= description %> <br><br>
 
-<%= description %> <br>
-<br>
+<a href="/bootstrap/<%= name %>"> Fetch project bootstrapper </a> <br>
+You can also run something like:<br>
+wget <%= server.url %>:<%= server.port %>/init/<%= name %> -O - | sh <br><br>
 
-<a href="/init/<%= project %>"> Init </a> | <a href="/bootstrap/<%= project %>"> Bootstrap </a>
-<br>
-
+<b><u>Files in project</u></b> <br>
 <% _.each(file_info, function(file) { %>
-<% file %>
+ * <%= file.path %>
 <br>
 <% }); %>
