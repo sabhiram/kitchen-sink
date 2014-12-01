@@ -1,5 +1,6 @@
 var _       = require("underscore")._,
     path    = require("path"),
+    fs      = require("fs"),
     
     // Custom helper stuff here
     file_helper  = require("./helpers.js")();
