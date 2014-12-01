@@ -85,7 +85,7 @@ describe("Test Folder Walking", function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     it("test get_files_in_dir", function(next_test) {
-        file_helper.get_files_in_dir(fixture_dir, ".", function(error, results) {
+        file_helper.get_files_in_dir(fixture_dir, function(error, results) {
             results.length.should.be.exactly(3);
             next_test();
         });

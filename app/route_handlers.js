@@ -34,7 +34,7 @@ module.exports = function(SETTINGS) {
                 var project_name = request.params.project_name,
                     project      = _.findWhere(SETTINGS.services, { "name": project_name });
 
-                file_helper.get_files_in_dir(project.path, ".", function(error, files) {
+                file_helper.get_files_in_dir(project.path, function(error, files) {
                     if (error) {
                         response.render("error", { "message": "Error encountered when fetching files. " + error });
                     } else {
@@ -52,9 +52,9 @@ module.exports = function(SETTINGS) {
             // Endpoint for "GET /bootstrap/:project_name"
             bootstrap: function(request, response) {
                 var project_name = request.params.project_name,
-                    project      = _.findWhere(SETTINGS.services, {"name": project_name});
+                    project      = _.findWhere(SETTINGS.services, { "name": project_name });
 
-                file_helper.get_files_in_dir(project.path, ".", function(error, files) {
+                file_helper.get_files_in_dir(project.path, function(error, files) {
                     if (error) {
                         response.render("error", { "message": "Error encountered when fetching files. " + error });
                     } else {

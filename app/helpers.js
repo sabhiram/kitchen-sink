@@ -17,6 +17,11 @@ module.exports = function() {
     ////////////////////////////////////////////////////////////////////////////////
     // Helper function to walk a dir and fetch all sub paths under it
     function _get_files_in_dir(base_path, sub_path, callback) {
+        if (typeof(sub_path) == "function" && typeof(callback) == "undefined") {
+            callback = sub_path;
+            sub_path = ".";
+        }
+
         var dir_path = path.join(base_path, sub_path),
             output   = [];
 
