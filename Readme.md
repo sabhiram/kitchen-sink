@@ -38,7 +38,7 @@ Fetches a `init.sh`-esq file which can be used to fetch all files from the given
 
 or the more traditional:
 
-    wget http://<server>:<port>/bootstrap/:project_name -o bootstrap.sh
+    wget http://<server>:<port>/bootstrap/:project_name -O bootstrap.sh
     chmod u+x bootstrap.sh
     ./bootstrap.sh
 
