@@ -1,42 +1,8 @@
 var _       = require("underscore")._,
     path    = require("path"),
-    fs      = require("fs");
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Extend function
-Array.prototype.extend = function(array) {
-    this.push.apply(this, array);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Helper function to walk a dir and fetch all sub paths under it
-function get_files_in_dir_sync(base_path, sub_path) {
-    var sub_path = sub_path || ".",
-        dir_path = path.join(base_path, sub_path),
-        files = fs.readdirSync(dir_path);
-
-    var output = [];
-    _.each(files, function(file) {
-        var file_path       = path.join(dir_path, file),
-            file_rel_path   = path.join(sub_path, file),
-            file_stats      = fs.statSync(file_path);
-
-        // If its a file, we just add to the output
-        if (file_stats.isFile()) {
-            output.push({
-                "name": file,
-                "path": file_rel_path,
-                "mtime": file_stats.mtime,
-            });
-        }
-        // Otherwise, recurse...
-        else {
-            output.extend(get_files_in_dir_sync(base_path, path.join(sub_path, file)));    
-        }
-    });
-    return output;
-}
+    
+    // Custom helper stuff here
+    file_helper  = require("./helpers.js")();
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,11 +34,17 @@ module.exports = function(SETTINGS) {
                 var project_name = request.params.project_name,
                     project      = _.findWhere(SETTINGS.services, { "name": project_name });
 
-                response.render("list_project", {
-                    "name": project.name,
-                    "description": project.description,
-                    "server": SETTINGS,
-                    "files": get_files_in_dir_sync(project.path),
+                file_helper.get_files_in_dir(project.path, ".", function(error, files) {
+                    if (error) {
+                        response.render("error", { "message": "Error encountered when fetching files. " + error });
+                    } else {
+                        response.render("list_project", {
+                            "name": project.name,
+                            "description": project.description,
+                            "server": SETTINGS,
+                            "files": files,
+                        });
+                    }
                 });
             },
 
@@ -82,10 +54,16 @@ module.exports = function(SETTINGS) {
                 var project_name = request.params.project_name,
                     project      = _.findWhere(SETTINGS.services, {"name": project_name});
 
-                response.render("bootstrap", {
-                    "name": project.name,
-                    "server": SETTINGS,
-                    "files": get_files_in_dir_sync(project.path)
+                file_helper.get_files_in_dir(project.path, ".", function(error, files) {
+                    if (error) {
+                        response.render("error", { "message": "Error encountered when fetching files. " + error });
+                    } else {
+                        response.render("bootstrap", {
+                            "name": project.name,
+                            "server": SETTINGS,
+                            "files": files
+                        });
+                    }
                 });
             },
 
