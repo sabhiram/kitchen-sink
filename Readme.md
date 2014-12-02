@@ -12,13 +12,36 @@ So, enter kitchen-sink, for all your sinking needs.
 
     git clone git@github.com:sabhiram/kitchen-sink.git
     npm install
-    echo {} config.json
+    echo {"services": []} > config.json
     npm start
 
 ## Run some tests
 
     npm install --dev
     npm test
+
+## Sample Config file
+
+*Sample config.json file*
+
+Note: Absolute paths do not work just yet...
+
+    {
+        "port": 2674,
+        "services": [
+        {
+                "name": "absolute",
+                "description": "Absolute path sub-folder",
+                "path": "/services_a/project"
+            },
+            {
+                "name": "relative",
+                "description": "Relative path sub-folder",
+                "path": "../parent/child/project"
+            }
+        ]
+    }
+
 
 ## API
 
@@ -54,3 +77,6 @@ Here is how you can go about fetching a file and checking to see if it needs to 
 
 1. Moar tests
 2. Does it make sense to have a fetch compressed?
+3. The config file needs to be maintainable from the web GUI, and by way of manual edits...
+4. Handle absolute paths in project 
+5. There is no default config file, elegantify this whole ordeal
