@@ -1,0 +1,15 @@
+{
+    "port": 2674,
+    "services": [
+    {
+            "name": "absolute",
+            "description": "Absolute path sub-folder",
+            "path": "/services_a/project"
+        },
+        {
+            "name": "relative",
+            "description": "Relative path sub-folder",
+            "path": "../parent/child/project"
+        }
+    ]
+}

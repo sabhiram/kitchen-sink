@@ -12,7 +12,7 @@ So, enter kitchen-sink, for all your sinking needs.
 
     git clone git@github.com:sabhiram/kitchen-sink.git
     npm install
-    echo {"services": []} > config.json
+    mv sample.config.json config.json
     npm start
 
 ## Run some tests
