@@ -4,6 +4,18 @@ var should  = require("should"),
     fs      = require("fs");
 
 
+describe("Array extend tests", function() {
+    var file_helper     = require("../app/helpers")();
+
+    it("should extend an array", function(next_test) {
+        var arr0 = [1,2,3],
+            arr1 = [4,5,6];
+        arr0.extend(arr1);
+        arr0.length.should.be.exactly(6);
+        next_test();
+    });
+});
+
 ////////////////////////////////////////////////////////////////////////////////
 describe("Test Folder Walking", function() {
     var file_helper     = require("../app/helpers")(),
