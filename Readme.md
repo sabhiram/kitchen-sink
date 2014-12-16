@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sabhiram/kitchen-sink.svg?branch=master)](https://travis-ci.org/sabhiram/kitchen-sink)
+
 # Kitchen-Sink
 
 A general purpose node-based file-server
