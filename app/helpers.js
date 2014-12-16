@@ -61,9 +61,6 @@ module.exports = function() {
                 });
             },
         ], function(error, result) {
-            if (error) {
-                console.log("Error: " + error);
-            }
             callback(error, output);
         });
     }
