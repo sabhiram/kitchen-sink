@@ -1,4 +1,8 @@
+# CI Status:
+
 [![Build Status](https://travis-ci.org/sabhiram/kitchen-sink.svg?branch=master)](https://travis-ci.org/sabhiram/kitchen-sink)
+
+[![Coverage Status](https://coveralls.io/repos/sabhiram/kitchen-sink/badge.png)](https://coveralls.io/r/sabhiram/kitchen-sink)
 
 # Kitchen-Sink
 
