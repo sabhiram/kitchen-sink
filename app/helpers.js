@@ -16,10 +16,18 @@ module.exports = function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     // Helper function to walk a dir and fetch all sub paths under it
-    function _get_files_in_dir(base_path, sub_path, callback) {
-        if (typeof(sub_path) == "function" && typeof(callback) == "undefined") {
+    function _get_files_in_dir(base_path, sub_path, ignore_path_list, callback) {
+        if (typeof(sub_path) == "object" && typeof(ignore_path_list) == "function" && typeof(callback) == "undefined") {
+            callback = ignore_path_list;
+            ignore_path_list = sub_path;
+            sub_path = ".";
+        } else if (typeof(sub_path) == "function" && typeof(ignore_path_list) == "undefined" && typeof(callback) == "undefined") {
             callback = sub_path;
             sub_path = ".";
+            ignore_path_list = [];
+        } else if (typeof(ignore_path_list) == "function" && typeof(callback) == "undefined") {
+            callback = ignore_path_list;
+            ignore_path_list = [];
         }
 
         var dir_path = path.join(base_path, sub_path),
@@ -47,7 +55,7 @@ module.exports = function() {
                                     });
                                     next_step();
                                 } else {
-                                    _get_files_in_dir(base_path, file_rel_path, function(error, recursive_results) {
+                                    _get_files_in_dir(base_path, file_rel_path, ignore_path_list, function(error, recursive_results) {
                                         output.extend(recursive_results);
                                         next_step(error);
                                     });
@@ -67,8 +75,14 @@ module.exports = function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     // [SYNC] Helper function to walk a dir and fetch all sub paths under it
-    function _get_files_in_dir_sync(base_path, sub_path) {
+    function _get_files_in_dir_sync(base_path, sub_path, ignore_path_list) {
+        if (typeof(sub_path) == "object" && typeof(ignore_path_list) == "undefined") {
+            sub_path = ".";
+            ignore_path_list = [];
+        }
+
         var sub_path = sub_path || ".",
+            ignore_path_list = ignore_path_list || [],
             dir_path = path.join(base_path, sub_path),
             files = fs.readdirSync(dir_path);
 
@@ -88,7 +102,7 @@ module.exports = function() {
             }
             // Otherwise, recurse...
             else {
-                output.extend(_get_files_in_dir_sync(base_path, path.join(sub_path, file)));    
+                output.extend(_get_files_in_dir_sync(base_path, path.join(sub_path, file), ignore_path_list));
             }
         });
         return output;

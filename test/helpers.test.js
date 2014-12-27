@@ -22,7 +22,7 @@ describe("Test Folder Walking", function() {
         fixture_dir     = path.join(__dirname, "_temp_fixtures"),
         folder_a        = path.join(fixture_dir, "folder_a"),
         folder_b        = path.join(fixture_dir, "folder_b"),
-        folder_b_b      = path.join(fixture_dir, "folder_b_b"),
+        folder_b_b      = path.join(folder_b, "folder_b_b"),
         file_a_a        = path.join(folder_a, "a.txt"),
         file_b_b        = path.join(folder_b, "b.txt"),
         file_b_b_b      = path.join(folder_b_b, "b.txt");
@@ -30,11 +30,11 @@ describe("Test Folder Walking", function() {
     ////////////////////////////////////////////////////////////////////////////////
     // Setup
     before(function(done) {
-        
+
         /* Lets create a mock folder structure here... something like:
         _temp_fixtures/folder_a/a.txt
         _temp_fixtures/folder_b/folder_b/b.txt
-        _temp_fixtures/folder_b/b.txt 
+        _temp_fixtures/folder_b/b.txt
         */
         async.series([
             function clean_fixture_dir(next_step) {
@@ -67,15 +67,15 @@ describe("Test Folder Walking", function() {
     after(function(done) {
         async.series([
             function remove_files(next_step) {
-                fs.unlinkSync(file_a_a);
-                fs.unlinkSync(file_b_b);
                 fs.unlinkSync(file_b_b_b);
+                fs.unlinkSync(file_b_b);
+                fs.unlinkSync(file_a_a);
                 next_step();
             },
             function remove_folders(next_step) {
-                fs.rmdirSync(folder_a);
-                fs.rmdirSync(folder_b);
                 fs.rmdirSync(folder_b_b);
+                fs.rmdirSync(folder_b);
+                fs.rmdirSync(folder_a);
                 next_step();
             },
             function clean_fixture_dir(next_step) {
@@ -95,8 +95,11 @@ describe("Test Folder Walking", function() {
         next_test();
     });
 
+    //
+    // get_files_in_dir
+    //
     ////////////////////////////////////////////////////////////////////////////////
-    it("test get_files_in_dir", function(next_test) {
+    it("test get_files_in_dir - (fixture dir)", function(next_test) {
         file_helper.get_files_in_dir(fixture_dir, function(error, results) {
             results.length.should.be.exactly(3);
             next_test();
@@ -104,8 +107,56 @@ describe("Test Folder Walking", function() {
     });
 
     ////////////////////////////////////////////////////////////////////////////////
-    it("test get_files_in_dir_sync", function(next_test) {
+    it("test get_files_in_dir - (fixture dir, sub path)", function(next_test) {
+        file_helper.get_files_in_dir(fixture_dir, ".", function(error, results) {
+            results.length.should.be.exactly(3);
+            next_test();
+        });
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir - (fixture dir, ignore paths)", function(next_test) {
+        file_helper.get_files_in_dir(fixture_dir, [], function(error, results) {
+            results.length.should.be.exactly(3);
+            next_test();
+        });
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir - (fixture dir, sub_path, ignore paths)", function(next_test) {
+        file_helper.get_files_in_dir(fixture_dir, ".", [], function(error, results) {
+            results.length.should.be.exactly(3);
+            next_test();
+        });
+    });
+
+    //
+    // get_files_in_dir_sync
+    //
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir_sync - (fixture dir)", function(next_test) {
         var results = file_helper.get_files_in_dir_sync(fixture_dir);
+        results.length.should.be.exactly(3);
+        next_test();
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir_sync - (fixture dir, sub path)", function(next_test) {
+        var results = file_helper.get_files_in_dir_sync(fixture_dir, ".");
+        results.length.should.be.exactly(3);
+        next_test();
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir_sync - (fixture dir, ignore paths)", function(next_test) {
+        var results = file_helper.get_files_in_dir_sync(fixture_dir, []);
+        results.length.should.be.exactly(3);
+        next_test();
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir_sync - (fixture dir, sub_path, ignore paths)", function(next_test) {
+        var results = file_helper.get_files_in_dir_sync(fixture_dir, ".", []);
         results.length.should.be.exactly(3);
         next_test();
     });
