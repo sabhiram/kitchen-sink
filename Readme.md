@@ -8,7 +8,7 @@ A general purpose node-based file-server
 
 I typically edit files I want to deploy to random linux servers on my laptop. While I am sure the vi hackers of the world are shaking their fists violently at this page, I tend to prefer a nice sublimey interface. 
 
-So, enter kitchen-sink, for all your sinking needs.
+So, enter kitchen-sink, for all your sink-ing needs.
 
 ## Fetching and install
 

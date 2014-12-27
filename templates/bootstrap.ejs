@@ -23,7 +23,7 @@ fi
 
 # Fetch each file from the server
 <% _.each(files, function(file) { -%>
-curl ${SERVER}:${PORT}/get_file/${PROJECT}/<%= file.path %> --silent --create-dirs -z <%= file.path %> -o <%= file.path %>
+curl ${SERVER}:${PORT}/get_file/${PROJECT}/<%= file.path %> --silent --create-dirs -z "<%= file.path %>" -o "<%= file.path %>"
 <% }); -%>
 
 # Done...
