@@ -55,10 +55,14 @@ module.exports = function() {
                                     });
                                     next_step();
                                 } else {
-                                    _get_files_in_dir(base_path, file_rel_path, ignore_path_list, function(error, recursive_results) {
-                                        output.extend(recursive_results);
-                                        next_step(error);
-                                    });
+                                    // Only recurse when this rel_path is not in the ignore list
+                                    // TODO: This can also be a list of regexs to make this nicer...
+                                    if (!_.contains(ignore_path_list, file_rel_path)) {
+                                        _get_files_in_dir(base_path, file_rel_path, ignore_path_list, function(error, recursive_results) {
+                                            output.extend(recursive_results);
+                                            next_step(error);
+                                        });
+                                    } else next_step();
                                 }
                             },
                         ], inner_callback);
@@ -102,7 +106,11 @@ module.exports = function() {
             }
             // Otherwise, recurse...
             else {
-                output.extend(_get_files_in_dir_sync(base_path, path.join(sub_path, file), ignore_path_list));
+                // Only recurse when this rel_path is not in the ignore list
+                // TODO: This can also be a list of regexs to make this nicer...
+                if (!_.contains(ignore_path_list, file_rel_path)) {
+                    output.extend(_get_files_in_dir_sync(base_path, path.join(sub_path, file), ignore_path_list));
+                }
             }
         });
         return output;

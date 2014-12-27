@@ -130,6 +130,14 @@ describe("Test Folder Walking", function() {
         });
     });
 
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir - validate ignore paths", function(next_test) {
+        file_helper.get_files_in_dir(fixture_dir, ["folder_b/folder_b_b", "folder_a"], function(error, results) {
+            results.length.should.be.exactly(1);
+            next_test();
+        });
+    });
+
     //
     // get_files_in_dir_sync
     //
@@ -158,6 +166,13 @@ describe("Test Folder Walking", function() {
     it("test get_files_in_dir_sync - (fixture dir, sub_path, ignore paths)", function(next_test) {
         var results = file_helper.get_files_in_dir_sync(fixture_dir, ".", []);
         results.length.should.be.exactly(3);
+        next_test();
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////
+    it("test get_files_in_dir_sync - validate ignore paths", function(next_test) {
+        var results = file_helper.get_files_in_dir_sync(fixture_dir, ".", ["folder_b/folder_b_b"]);
+        results.length.should.be.exactly(2);
         next_test();
     });
 });
