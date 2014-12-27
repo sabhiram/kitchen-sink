@@ -1,7 +1,7 @@
 var _       = require("underscore")._,
     path    = require("path"),
     fs      = require("fs"),
-    
+
     // Custom helper stuff here
     file_helper  = require("./helpers.js")();
 
@@ -12,7 +12,7 @@ module.exports = function(SETTINGS) {
 
     // Return public interfaces
     return {
-        
+
         ////////////////////////////////////////////////////////////////////////////////
         // Endpoint for "GET /"
         index: function(request, response)  {
@@ -33,9 +33,10 @@ module.exports = function(SETTINGS) {
             // Endpoint for "GET /list/:project_name"
             list: function(request, response) {
                 var project_name = request.params.project_name,
-                    project      = _.findWhere(SETTINGS.services, { "name": project_name });
+                    project      = _.findWhere(SETTINGS.services, { "name": project_name }),
+                    ignore_paths  = project["ignore_paths"] || [];
 
-                file_helper.get_files_in_dir(project.path, function(error, files) {
+                file_helper.get_files_in_dir(project.path, ignore_paths, function(error, files) {
                     if (error) {
                         response.render("error", { "message": "Error encountered when fetching files. " + error });
                     } else {
@@ -53,9 +54,10 @@ module.exports = function(SETTINGS) {
             // Endpoint for "GET /bootstrap/:project_name"
             bootstrap: function(request, response) {
                 var project_name = request.params.project_name,
-                    project      = _.findWhere(SETTINGS.services, { "name": project_name });
+                    project      = _.findWhere(SETTINGS.services, { "name": project_name }),
+                    ignore_paths  = project["ignore_paths"] || [];
 
-                file_helper.get_files_in_dir(project.path, function(error, files) {
+                file_helper.get_files_in_dir(project.path, ignore_paths, function(error, files) {
                     if (error) {
                         response.render("error", { "message": "Error encountered when fetching files. " + error });
                     } else {
