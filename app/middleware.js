@@ -13,9 +13,13 @@ module.exports = function(SETTINGS) {
         },
 
         ////////////////////////////////////////////////////////////////////////////////
-        // This validates that the project being asked for is valid
+        // This validates that the project being asked for is valid, and adds the project
+        // info to the response so that the next_route knows what project its associated
+        // with. This saves us form having to repeat the _.findWhere seen below.
         validate_project: function(request, response, next_route) {
-            if (_.findWhere(SETTINGS.projects, { "name": request.params.project_name })) {
+            var project = _.findWhere(SETTINGS.projects, { "name": request.params.project_name });
+            if (project) {
+                response.locals.project = project;
                 next_route();
             } else {
                 response.render("error", {
