@@ -13,13 +13,12 @@ So, enter kitchen-sink, for all your sink-ing needs.
 ## Fetching and install
 
     git clone git@github.com:sabhiram/kitchen-sink.git
-    npm install
+    npm update
     mv sample.config.json config.json
     npm start
 
 ## Run some tests
 
-    npm install --dev
     npm test
 
 ## Sample Config file
@@ -29,7 +28,7 @@ So, enter kitchen-sink, for all your sink-ing needs.
     {
         "port": 2674,
         "services": [
-        {
+            {
                 "name": "absolute",
                 "description": "Absolute path sub-folder",
                 "path": "/services_a/project"

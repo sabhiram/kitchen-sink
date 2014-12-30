@@ -90,7 +90,7 @@ module.exports = function(SETTINGS) {
                     };
 
                 fs.exists(file_full_path, function(exists) {
-                    if(!exists) {
+                    if (!exists) {
                         console.log("file does not exist: " + file_full_path);
                         response.send(404);
                     } else {
