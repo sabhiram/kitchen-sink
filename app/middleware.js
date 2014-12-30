@@ -15,11 +15,11 @@ module.exports = function(SETTINGS) {
         ////////////////////////////////////////////////////////////////////////////////
         // This validates that the project being asked for is valid
         validate_project: function(request, response, next_route) {
-            if (_.findWhere(SETTINGS.services, { "name": request.params.project_name })) {
+            if (_.findWhere(SETTINGS.projects, { "name": request.params.project_name })) {
                 next_route();
             } else {
                 response.render("error", {
-                    "message": "Project "+request.params.project_name+"does not exist!"
+                    "message": "Project " + request.params.project_name + " does not exist!"
                 });
             }
         },

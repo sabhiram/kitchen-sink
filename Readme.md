@@ -23,11 +23,27 @@ So, enter kitchen-sink, for all your sink-ing needs.
 
 ## Sample Config file
 
-*Sample config.json file*
+The following settings are referenced from the `config.json` file. 
 
+| Setting | Default | Description |
+| ------- | ------- | ----------- |
+| port    | 1234    | Override the port for `kitchen-sink` |
+| projects| []      | An array of projects we wish to expose files for |
+
+Where an entry in the `projects` array is of the following, note that optional parameters are specified with a `*`:
+
+|    Setting    | Description |
+|    -------    | ----------- |
+| name          | The name of the project and the key by which it is accessed |
+| description   | Description of the project being shared |
+| path          | relative, or explicit path to the folder being shared |
+| ignore_paths* | list of sub-folder paths to ignore |
+
+*Sample config.json file*
+```json
     {
         "port": 2674,
-        "services": [
+        "projects": [
             {
                 "name": "absolute",
                 "description": "Absolute path sub-folder",
@@ -36,11 +52,12 @@ So, enter kitchen-sink, for all your sink-ing needs.
             {
                 "name": "relative",
                 "description": "Relative path sub-folder",
-                "path": "../parent/child/project"
+                "path": "../parent/child/project",
+                "ignore_paths": ["node-modules", ".git", "log"]
             }
         ]
     }
-
+```
 
 ## API
 

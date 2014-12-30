@@ -1,6 +1,6 @@
 {
     "port": 2674,
-    "services": [
+    "projects": [
     {
             "name": "absolute",
             "description": "Absolute path sub-folder",
@@ -9,7 +9,8 @@
         {
             "name": "relative",
             "description": "Relative path sub-folder",
-            "path": "../parent/child/project"
+            "path": "../parent/child/project",
+            "ignore_paths": ["node-modules", ".git"]
         }
     ]
 }

@@ -16,7 +16,7 @@ module.exports = function(SETTINGS) {
         ////////////////////////////////////////////////////////////////////////////////
         // Endpoint for "GET /"
         index: function(request, response)  {
-            response.render("index", { "services": SETTINGS.services });
+            response.render("index", { "projects": SETTINGS.projects });
         },
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ module.exports = function(SETTINGS) {
             // Endpoint for "GET /list/:project_name"
             list: function(request, response) {
                 var project_name = request.params.project_name,
-                    project      = _.findWhere(SETTINGS.services, { "name": project_name }),
+                    project      = _.findWhere(SETTINGS.projects, { "name": project_name }),
                     ignore_paths  = project["ignore_paths"] || [];
 
                 file_helper.get_files_in_dir(project.path, ignore_paths, function(error, files) {
@@ -54,7 +54,7 @@ module.exports = function(SETTINGS) {
             // Endpoint for "GET /bootstrap/:project_name"
             bootstrap: function(request, response) {
                 var project_name = request.params.project_name,
-                    project      = _.findWhere(SETTINGS.services, { "name": project_name }),
+                    project      = _.findWhere(SETTINGS.projects, { "name": project_name }),
                     ignore_paths  = project["ignore_paths"] || [];
 
                 file_helper.get_files_in_dir(project.path, ignore_paths, function(error, files) {
@@ -75,7 +75,7 @@ module.exports = function(SETTINGS) {
             // TODO: Asyncize this :)
             get_file: function(request, response) {
                 var project_name = request.params.project_name,
-                    project      = _.findWhere(SETTINGS.services, { "name": project_name }),
+                    project      = _.findWhere(SETTINGS.projects, { "name": project_name }),
                     file_sub_path   = path.dirname(request.params[0]),
                     file_root       = path.join(project.path, file_sub_path),
                     file_name       = path.basename(request.params[0]),
