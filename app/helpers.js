@@ -49,9 +49,10 @@ module.exports = function() {
                             function recurse(file_info, next_step) {
                                 if (file_info.isFile()) {
                                     output.push({
-                                        "name": file,
-                                        "path": file_rel_path,
-                                        "mtime": file_info.mtime,
+                                        "name"    : file,
+                                        "path"    : file_rel_path,
+                                        "mtime"   : file_info.mtime,
+                                        "url_path": file_rel_path.replace(/\s/g, "%20"),
                                     });
                                     next_step();
                                 } else {

@@ -93,20 +93,20 @@ module.exports = function(SETTINGS) {
                 fs.exists(file_full_path, function(exists) {
                     if (!exists) {
                         console.log("file does not exist: " + file_full_path);
-                        response.send(404);
+                        response.sendStatus(404);
                     } else {
                         // Send the file :)
                         response.sendFile(file_name, send_options, function(error) {
                             if (error) {
                                 if (error.code === "ECONNABORT" && response.statusCode == 304) {
-                                    console.log("Ignored: " + file_full_path);
+                                    // console.log("Ignored: " + file_full_path);
                                 } else {
                                     console.log("Error: " + file_full_path + ". Error: " + error);
                                     response.status(error.status);
                                     response.end();
                                 }
                             } else {
-                                console.log("Sent: " + file_full_path);
+                                console.log("Sending: " + file_full_path);
                             }
                         });
                     }
