@@ -47,7 +47,13 @@ module.exports = function() {
                                 fs.stat(file_path, next_step);
                             },
                             function recurse(file_info, next_step) {
-                                if (file_info.isFile()) {
+                                // TODO: I am just blatantly ignoring dotfiles here, this should
+                                // potentially be an option which each project opts into
+                                if (/^\./.test(file)) {
+                                    // Ignore these
+                                    next_step();
+                                }
+                                else if (file_info.isFile()) {
                                     output.push({
                                         "name"    : file,
                                         "path"    : file_rel_path,
