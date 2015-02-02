@@ -4,7 +4,7 @@
 
 <a href="/bootstrap/<%= name %>"> Fetch project bootstrapper </a> <br>
 You can also run something like:<br>
-wget <%= server.url %>:<%= server.port %>/init/<%= name %> -O - | sh <br><br>
+wget <%= server.url %>:<%= server.port %>/bootstrap/<%= name %> -O - | sh <br><br>
 
 <b><u>Files in project</u></b> <br>
 <% _.each(files, function(file) { %>
