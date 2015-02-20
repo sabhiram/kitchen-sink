@@ -2,9 +2,10 @@
 <b>Project Description: </b> <br>
 <%= description %> <br><br>
 
-<a href="/bootstrap/<%= name %>"> Fetch project bootstrapper </a> <br>
+<a href="/bootstrap/<%= name %>"> Fetch project bootstrapper </a> <br><br>
 You can also run something like:<br>
-wget <%= server.url %>:<%= server.port %>/bootstrap/<%= name %> -O - | sh <br><br>
+&nbsp;&nbsp;wget <%= server.url %>:<%= server.port %>/bootstrap/<%= name %> -O - | sh <br>
+&nbsp;&nbsp;wget <%= server.url %>:<%= server.port %>/bootstrap/<%= name %> -O bootstrap.sh && chmod u+x bootstrap.sh && ./bootstrap.sh<br><br>
 
 <b><u>Files in project</u></b> <br>
 <% _.each(files, function(file) { %>
