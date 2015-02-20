@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
 var os      = require("os"),
     path    = require("path"),
+    fs      = require("fs"),
 
     // External deps
     express = require("express"),
@@ -42,3 +43,14 @@ require("./app/routes.js")(app, middleware, handlers);
 // Start server
 console.log("\nServer up at " + SETTINGS.url + ":" + SETTINGS.port);
 app.listen(SETTINGS.port);
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Validate that all the projects have a folder representing them
+_.each(SETTINGS.projects, function(project) {
+    fs.exists(project.path, function(exists) {
+        if (!exists) {
+            console.log("Warning, path: " + project.path + " does not exist (project: " + project.name + ").");
+        }
+    });
+});
