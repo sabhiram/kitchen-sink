@@ -12,16 +12,15 @@ var os      = require("os")
   , app = express()
 
     // Grab app settings
-  . SETTINGS = require("./config.json")
+  , SETTINGS = require("./config.json")
+  , hostname = SETTINGS.hostname || os.hostname()
   ;
 
 //////////////////////////////////////////////////////////////////////////////
 // Fix up some settings like the url etc, also
 // default params for required vars
 SETTINGS.port = SETTINGS.port || 1234;
-
-var hostname = SETTINGS.hostname || os.hostname();
-SETTINGS.url = util.format("http://%s:%d", hostname, SETTINGS.port);
+SETTINGS.url  = util.format("http://%s:%d", hostname, SETTINGS.port);
 
 //////////////////////////////////////////////////////////////////////////////
 // Configure the express app
@@ -43,7 +42,7 @@ require("./app/routes.js")(app, middleware, handlers);
 
 //////////////////////////////////////////////////////////////////////////////
 // Start server
-console.log("\nServer up at " + SETTINGS.url + ":" + SETTINGS.port);
+console.log("\nServer up at " + SETTINGS.url);
 app.listen(SETTINGS.port);
 
 
