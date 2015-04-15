@@ -20,7 +20,7 @@ var os      = require("os")
 // Fix up some settings like the url etc, also
 // default params for required vars
 SETTINGS.port = SETTINGS.port || 1234;
-SETTINGS.url  = util.format("http://%s:%d", hostname, SETTINGS.port);
+SETTINGS.url  = util.format("http://%s", hostname);
 
 //////////////////////////////////////////////////////////////////////////////
 // Configure the express app
@@ -31,7 +31,6 @@ app.set("trust proxy", true);
 // Point _ to the app locals so we can refer to it from
 // the ejs templates
 app.locals._ = _;
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Define application routes
@@ -44,7 +43,6 @@ require("./app/routes.js")(app, middleware, handlers);
 // Start server
 console.log("\nServer up at " + SETTINGS.url);
 app.listen(SETTINGS.port);
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Validate that all the projects have a folder representing them
