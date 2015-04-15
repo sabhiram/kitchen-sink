@@ -1,5 +1,6 @@
 {
     "port": 2674,
+    "hostname": "localhost",
     "projects": [
     {
             "name": "absolute",

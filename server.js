@@ -1,25 +1,27 @@
 //////////////////////////////////////////////////////////////////////////////
-var os      = require("os"),
-    path    = require("path"),
-    fs      = require("fs"),
-
+var os      = require("os")
+  , path    = require("path")
+  , fs      = require("fs")
+  , util    = require("util")
+    
     // External deps
-    express = require("express"),
-    _       = require("underscore")._,
+  , express = require("express")
+  , _       = require("underscore")._
 
     // Setup app instance
-    app = express(),
+  , app = express()
 
     // Grab app settings
-    SETTINGS = require("./config.json");
-
+  . SETTINGS = require("./config.json")
+  ;
 
 //////////////////////////////////////////////////////////////////////////////
 // Fix up some settings like the url etc, also
 // default params for required vars
-SETTINGS.url  = "http://" + os.hostname();
 SETTINGS.port = SETTINGS.port || 1234;
 
+var hostname = SETTINGS.hostname || os.hostname();
+SETTINGS.url = util.format("http://%s:%d", hostname, SETTINGS.port);
 
 //////////////////////////////////////////////////////////////////////////////
 // Configure the express app
