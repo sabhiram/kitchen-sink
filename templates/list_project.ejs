@@ -9,6 +9,6 @@ You can also run something like:<br>
 
 <b><u>Files in project</u></b> <br>
 <% _.each(files, function(file) { %>
- * <%= file.path %>
+ * <a href="<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"><%= file.path %></a>
 <br>
 <% }); %>
