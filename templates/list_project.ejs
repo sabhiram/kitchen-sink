@@ -20,11 +20,10 @@ You can also run something like:<br>
 
 <b><u>Files in project</u></b> <br>
 <% _.each(files, function(file) { %>
-    * <a href="<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"><%= file.path %></a>
+    * <a href="<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"><%= file.path %></a><br>
 <% if ( file.path.match(/\.(png|jpg|gif)$/) ) { %>
-    <img class = "ks-inline-image" src = "<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"></img>
+    <img class = "ks-inline-image" src = "<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"></img><br><hr>
 <% } %>
-<br>
 <% }); %>
 </body>
 </html>
