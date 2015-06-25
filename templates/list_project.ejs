@@ -1,3 +1,14 @@
+<html>
+<head>
+    <title><%= name %></title>
+    <style>
+    .ks-inline-image {
+      max-width: 600px;
+    }
+    </style>
+</head>
+
+<body>
 <b>Project Name: </b> <%= name %> <br>
 <b>Project Description: </b> <br>
 <%= description %> <br><br>
@@ -9,6 +20,11 @@ You can also run something like:<br>
 
 <b><u>Files in project</u></b> <br>
 <% _.each(files, function(file) { %>
- * <a href="<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"><%= file.path %></a>
+    * <a href="<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"><%= file.path %></a>
+<% if ( file.path.match(/\.(png|jpg|gif)$/) ) { %>
+    <img class = "ks-inline-image" src = "<%= server.url %>:<%= server.port %>/get_file/<%= name %>/<%= file.path %>"></img>
+<% } %>
 <br>
 <% }); %>
+</body>
+</html>
