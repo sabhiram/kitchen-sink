@@ -1,8 +1,8 @@
-# Kitchen-Sink
+# kitchen-sink
 
 [![Build Status](https://travis-ci.org/sabhiram/kitchen-sink.svg?branch=master)](https://travis-ci.org/sabhiram/kitchen-sink) [![Coverage Status](https://coveralls.io/repos/sabhiram/kitchen-sink/badge.png)](https://coveralls.io/r/sabhiram/kitchen-sink)
 
-A general purpose node-based file-server
+NodeJS HTTP file sync server.
 
 ## Why in the world?
 
@@ -12,14 +12,18 @@ So, enter kitchen-sink, for all your sink-ing needs.
 
 ## Fetching and install
 
+```
     git clone git@github.com:sabhiram/kitchen-sink.git
     npm update
     mv sample.config.json config.json
     npm start
+```
 
 ## Run some tests
 
+```
     npm test
+```
 
 ## Sample Config file
 
@@ -40,6 +44,7 @@ Where an entry in the `projects` array is of the following, note that optional p
 | ignore_paths* | list of sub-folder paths to ignore |
 
 *Sample config.json file*
+
 ```json
     {
         "port": 2674,
@@ -94,4 +99,5 @@ Here is how you can go about fetching a file and checking to see if it needs to 
 1. Moar tests
 2. Does it make sense to have a fetch compressed?
 3. The config file needs to be maintainable from the web GUI, and by way of manual edits...
-5. There is no default config file, elegantify this whole ordeal
+4. There is no default config file, elegantify this whole ordeal
+
