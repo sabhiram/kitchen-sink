@@ -6,7 +6,7 @@ NodeJS HTTP file sync server.
 
 ## Why in the world?
 
-I typically edit files I want to deploy to random linux servers on my laptop. While I am sure the vi hackers of the world are shaking their fists violently at this page, I tend to prefer a nice sublimey interface. 
+I typically edit files I want to deploy to random linux servers on my laptop. While I am sure the vi hackers of the world are shaking their fists violently at this page, I tend to prefer a nice sublimey interface.
 
 So, enter kitchen-sink, for all your sink-ing needs.
 
@@ -27,7 +27,7 @@ So, enter kitchen-sink, for all your sink-ing needs.
 
 ## Sample Config file
 
-The following settings are referenced from the `config.json` file. 
+The following settings are referenced from the `config.json` file.
 
 | Setting | Default | Description |
 | ------- | ------- | ----------- |
@@ -88,7 +88,7 @@ or the more traditional:
 
 #### GET /get_file/<project_name>/<file/../path>
 
-Fetches a file in a given sub-folder. The headers are setup appropriately that the reciever can only re-update and fetch on file mtime change (last modified time). This is particularly useful in the context of cpp files (for ex), which cause re-compiliation of objects on mtime change (which will always occur if we blindly replace the file). 
+Fetches a file in a given sub-folder. The headers are setup appropriately that the reciever can only re-update and fetch on file mtime change (last modified time). This is particularly useful in the context of cpp files (for ex), which cause re-compiliation of objects on mtime change (which will always occur if we blindly replace the file).
 
 Here is how you can go about fetching a file and checking to see if it needs to be pulled down:
 
